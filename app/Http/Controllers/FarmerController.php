@@ -177,5 +177,3 @@ class FarmerController extends Controller
 
 
 
-
-

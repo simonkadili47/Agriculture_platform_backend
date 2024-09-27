@@ -21,6 +21,8 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
+        'otp',                // Added field to store OTP
+        'otp_expires_at',      // Optional field to track OTP expiration
     ];
 
     /**
@@ -31,6 +33,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'otp',                // Hide OTP in API responses
     ];
 
     /**
@@ -41,5 +44,25 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        'otp_expires_at' => 'datetime', // Cast the OTP expiration as a datetime object
     ];
+
+    /**
+     * Check if the OTP is valid (Optional)
+     *
+     * @return bool
+     */
+    public function isOtpValid($otp)
+    {
+        if ($this->otp !== $otp) {
+            return false;
+        }
+
+        // Check if OTP has expired (if you set expiration time)
+        if ($this->otp_expires_at && now()->greaterThan($this->otp_expires_at)) {
+            return false;
+        }
+
+        return true;
+    }
 }

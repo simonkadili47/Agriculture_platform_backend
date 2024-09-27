@@ -1,3 +1,4 @@
+
 <?php
 
 use Illuminate\Database\Migrations\Migration;
@@ -11,7 +12,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // Create the users table with a role column
+
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('full_name');
@@ -19,6 +20,8 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('role')->default('user');
+            $table->string('otp', 6)->nullable();
+            $table->timestamp('otp_expires_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
@@ -51,3 +54,11 @@ return new class extends Migration
         Schema::dropIfExists('users');
     }
 };
+
+
+
+
+
+
+
+
