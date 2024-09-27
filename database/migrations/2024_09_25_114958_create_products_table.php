@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('farmer_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
             $table->string('product_name');
             $table->decimal('selling_price', 8, 2);
@@ -23,7 +23,6 @@ return new class extends Migration
             $table->timestamps();
         });
     }
-
 
     /**
      * Reverse the migrations.

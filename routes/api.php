@@ -24,9 +24,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
     //product
     Route::post('/product', [FarmerController::class, 'addproduct']);
-    Route::get('/product', [FarmerController::class, ' viewproduct']);
+    Route::get('/products', [FarmerController::class, 'viewproduct']);
     Route::put('/product/{id}', [FarmerController::class, 'updateproduct']);
-    Route::delete('/categories/{id}', [FarmerController::class, 'deleteproduct']);
+    Route::delete('/product/{id}', [FarmerController::class, 'deleteproduct']);
 
 });
 

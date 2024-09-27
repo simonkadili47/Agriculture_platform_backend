@@ -15,7 +15,7 @@ class Product extends Model
      * @var array
      */
     protected $fillable = [
-        'farmer_id',
+        'user_id',
         'category_id',
         'product_name',
         'selling_price',
@@ -24,13 +24,19 @@ class Product extends Model
         'product_image',
     ];
 
+    /**
+     * Get the category that owns the product.
+     */
     public function category()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(Category::class, 'category_id');
     }
 
-    public function farmer()
+    /**
+     * Get the user that owns the product.
+     */
+    public function user()
     {
-        return $this->belongsTo(User::class, 'farmer_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

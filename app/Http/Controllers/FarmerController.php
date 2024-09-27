@@ -89,26 +89,32 @@ class FarmerController extends Controller
     //product
     public function addproduct(Request $request)
     {
-
         $validatedData = $request->validate([
             'product_name' => 'required|string|max:255',
             'selling_price' => 'nullable|numeric',
             'quantity' => 'required|integer',
             'product_description' => 'required|string|max:255',
-            'product_image' => 'required|string',
-            'farmer_id' => 'required|exists:farmers,id',
+            'product_image' => 'required|file|image|mimes:jpg,png,webp,jpeg,gif,svg|max:2048',
+            'user_id' => 'required|exists:users,id',
             'category_id' => 'required|exists:categories,id',
         ]);
 
         try {
-            // Create a new product with validated data
+            // Handle image upload
+            if ($request->hasFile('product_image')) {
+                $imagePath = $request->file('product_image')->store('images/products', 'public');
+
+                $imageName = basename($imagePath);
+            }
+
+            // Create a new product with validated data and image name
             $product = Product::create([
                 'product_name' => $validatedData['product_name'],
                 'selling_price' => $validatedData['selling_price'],
                 'quantity' => $validatedData['quantity'],
                 'product_description' => $validatedData['product_description'],
-                'product_image' => $validatedData['product_image'],
-                'farmer_id' => $validatedData['farmer_id'],
+                'product_image' => $imageName,
+                'user_id' => $validatedData['user_id'],
                 'category_id' => $validatedData['category_id'],
             ]);
 
@@ -123,10 +129,10 @@ class FarmerController extends Controller
     }
 
     public function viewproduct()
-    {
-        $product = Product::all();
-        return response()->json($product);
-    }
+{
+    $products = Product::all();
+    return response()->json($products);
+}
     public function updateproduct(Request $request, $id)
     {
         $product = Product::find($id);
@@ -140,8 +146,8 @@ class FarmerController extends Controller
             'selling_price' => 'nullable|numeric',
             'quantity' => 'required|integer',
             'product_description' => 'required|string|max:255',
-            'product_image' => 'required|string',
-            'farmer_id' => 'required|exists:farmers,id',
+            'product_image' => 'required|file|image|mimes:jpg,png,webp,jpeg,gif,svg|max:2048',
+            'user_id' => 'required|exists:users,id',
             'category_id' => 'required|exists:categories,id',
         ]);
 
@@ -162,7 +168,14 @@ class FarmerController extends Controller
 
         $product->delete();
 
-        return response()->json(['message' => 'Product deleted successfully.'], 204);
+        return response()->json(['message' => 'Product deleted successfully.'], 200);
     }
 
 }
+
+
+
+
+
+
+
