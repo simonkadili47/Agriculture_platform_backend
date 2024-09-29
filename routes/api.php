@@ -7,7 +7,6 @@ use App\Http\Controllers\FarmerController;
 
 // Authentication Routes
 Route::post('/register', [AuthController::class, 'register']);
-Route::post('/verify-otp', [AuthController::class, 'verifyOtp']);
 Route::post('/login', [AuthController::class, 'login']);
 
 // Protected routes for authenticated users

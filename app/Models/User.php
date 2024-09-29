@@ -21,8 +21,6 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
-        'otp',                // Added field to store OTP
-        'otp_expires_at',      // Optional field to track OTP expiration
     ];
 
     /**
