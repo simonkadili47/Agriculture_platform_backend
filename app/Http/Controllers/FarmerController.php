@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Product;
-use Symfony\Contracts\Service\Attribute\Required;
 
 class FarmerController extends Controller
 {
@@ -84,9 +83,9 @@ class FarmerController extends Controller
         return response()->json(['message' => 'Category deleted successfully.'], 204);
     }
 
+    // Product methods
 
-
-    //product
+    // Method to add a product
     public function addproduct(Request $request)
     {
         $validatedData = $request->validate([
@@ -103,7 +102,6 @@ class FarmerController extends Controller
             // Handle image upload
             if ($request->hasFile('product_image')) {
                 $imagePath = $request->file('product_image')->store('images/products', 'public');
-
                 $imageName = basename($imagePath);
             }
 
@@ -128,11 +126,14 @@ class FarmerController extends Controller
         }
     }
 
+    // View all products
     public function viewproduct()
-{
-    $products = Product::all();
-    return response()->json($products);
-}
+    {
+        $products = Product::all();
+        return response()->json($products);
+    }
+
+    // Update a product
     public function updateproduct(Request $request, $id)
     {
         $product = Product::find($id);
@@ -142,7 +143,7 @@ class FarmerController extends Controller
         }
 
         $validatedData = $request->validate([
-           'product_name' => 'required|string|max:255',
+            'product_name' => 'required|string|max:255',
             'selling_price' => 'nullable|numeric',
             'quantity' => 'required|integer',
             'product_description' => 'required|string|max:255',
@@ -158,9 +159,11 @@ class FarmerController extends Controller
             'product' => $product,
         ], 200);
     }
+
+    // Delete a product
     public function deleteproduct($id)
     {
-        $product =Product::find($id);
+        $product = Product::find($id);
 
         if (!$product) {
             return response()->json(['message' => 'Product not found.'], 404);
@@ -170,10 +173,4 @@ class FarmerController extends Controller
 
         return response()->json(['message' => 'Product deleted successfully.'], 200);
     }
-
 }
-
-
-
-
-

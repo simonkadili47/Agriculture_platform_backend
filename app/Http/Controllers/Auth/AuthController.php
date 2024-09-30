@@ -90,6 +90,7 @@ class AuthController extends Controller
                 'message' => 'User logged in successfully!',
                 'token' => $token,
                 'role' => $user->role,
+                'full_name' => $user->full_name, 
             ], 200);
 
         } catch (\Exception $e) {
@@ -107,8 +108,13 @@ class AuthController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Profile information',
-            'data' => $userData,
-            'id' => Auth::user()->id,
+            'data' => [
+                'id' => $userData->id,
+                'full_name' => $userData->full_name,
+                'email' => $userData->email,
+                'role' => $userData->role,
+
+            ],
         ], 200);
     }
 
