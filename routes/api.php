@@ -27,6 +27,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/products', [FarmerController::class, 'viewproduct']);
     Route::put('/product/{id}', [FarmerController::class, 'updateproduct']);
     Route::delete('/product/{id}', [FarmerController::class, 'deleteproduct']);
+    
 
 });
 
