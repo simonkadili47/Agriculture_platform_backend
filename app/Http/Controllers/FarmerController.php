@@ -142,15 +142,22 @@ class FarmerController extends Controller
             return response()->json(['message' => 'Product not found.'], 404);
         }
 
+        // Updated validation with nullable for product_image
         $validatedData = $request->validate([
             'product_name' => 'required|string|max:255',
             'selling_price' => 'nullable|numeric',
             'quantity' => 'required|integer',
             'product_description' => 'required|string|max:255',
-            'product_image' => 'required|file|image|mimes:jpg,png,webp,jpeg,gif,svg|max:2048',
+            'product_image' => 'nullable|file|image|mimes:jpg,png,webp,jpeg,gif,svg|max:2048',
             'user_id' => 'required|exists:users,id',
             'category_id' => 'required|exists:categories,id',
         ]);
+
+        // Handle image upload only if a new image is uploaded
+        if ($request->hasFile('product_image')) {
+            $imagePath = $request->file('product_image')->store('images/products', 'public');
+            $validatedData['product_image'] = basename($imagePath);
+        }
 
         $product->update($validatedData);
 
