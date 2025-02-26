@@ -10,24 +10,23 @@ use App\Http\Controllers\CategoryController;
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
-// Protected routes for authenticated users
 Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/profile', [AuthController::class, 'profile']);
     Route::post('/logout', [AuthController::class, 'logout']);
 
     //Category
-    Route::get('/categories', [FarmerController::class, 'index']);
-    Route::post('/categories', [FarmerController::class, 'store']);
-    Route::get('/categories/{id}', [FarmerController::class, 'show']);
-    Route::put('/categories/{id}', [FarmerController::class, 'update']);
-    Route::delete('/categories/{id}', [FarmerController::class, 'destroy']);
+    Route::get('/categories', [CategoryController::class, 'index']);
+    Route::post('/categories', [CategoryController::class, 'store']);
+    Route::get('/categories/{id}', [CategoryController::class, 'show']);
+    Route::put('/categories/{id}', [CategoryController::class, 'update']);
+    Route::delete('/categories/{id}', [CategoryController::class, 'destroy']);
 
     //product
-    Route::post('/addproduct', [FarmerController::class, 'addproduct']);
-    Route::get('/products', [FarmerController::class, 'viewproduct']);
-    Route::put('/product/{id}', [FarmerController::class, 'updateproduct']);
-    Route::delete('/product/{id}', [FarmerController::class, 'deleteproduct']);
+    Route::post('/addproduct', [ProductController::class, 'addproduct']);
+    Route::get('/products', [ProductController::class, 'viewproduct']);
+    Route::put('/product/{id}', [ProductController::class, 'updateproduct']);
+    Route::delete('/product/{id}', [ProductController::class, 'deleteproduct']);
     
 
 });
